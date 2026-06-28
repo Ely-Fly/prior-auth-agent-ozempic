@@ -1,0 +1,19 @@
+# API keys — never commit this
+.env
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+.Python
+
+# Generated PDF outputs — too large for git
+outputs/
+
+# Mac system files
+.DS_Store
+
+# Virtual environments
+venv/
+env/
+.venv/

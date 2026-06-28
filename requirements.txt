@@ -1,0 +1,4 @@
+google-adk
+reportlab>=4.0
+pandas>=1.5
+pypdf>=3.0
