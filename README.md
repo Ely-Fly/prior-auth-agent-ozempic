@@ -1,6 +1,6 @@
 # Prior Authorization Assistant — Ozempic (Semaglutide)
 
-An AI agent built with **Google ADK** and **Gemini 2.5 Flash** that automates
+An AI agent built with Google ADK and Gemini 2.5 Flash that automates
 the generation of prior authorization clinical note PDFs for Ozempic
 (semaglutide) prescriptions, based on patient diabetes and obesity data.
 
