@@ -1,29 +1,34 @@
 # insurance_match_skill
 
-ADK-compatible skill for Erick's part of the prior authorization workflow.
+ADK-compatible Python skill for Erick's part of the capstone: insurance matching,
+simulated payer-criteria evaluation, missing-documentation detection, and denial-risk
+scoring for synthetic Ozempic prior authorization notes.
 
-It runs after `clinic_note_skill` generates a synthetic prior authorization PDF.
-The skill reads the generated note, matches Insurance A/B/C/D, checks simulated
-payer criteria, flags missing documentation, and estimates denial risk.
+## Tools exposed
 
-## Tools
+- `extract_patient_case(note_text)` extracts patient ID, insurance plan, age,
+  medication, glucose, BMI, diabetes status, prior therapy evidence, safety review
+  evidence, and medical necessity rationale.
+- `list_policies()` lists simulated Insurance A/B/C/D policies.
+- `get_policy(policy_id)` returns one simulated policy.
+- `evaluate_prior_authorization(note_text)` extracts the case, matches insurance,
+  evaluates criteria, flags missing information, and returns denial risk.
 
-- `extract_patient_case(note_text)`
-- `extract_text_from_pdf(pdf_path)`
-- `list_policies()`
-- `get_policy(policy_id)`
-- `evaluate_prior_authorization(note_text)`
-- `evaluate_prior_authorization_pdf(pdf_path)`
-- `evaluate_patient_from_csv(patient_id, csv_path="diabetes_updated.csv")`
+## Design notes for writeup
 
-## Compatibility workflow
+The available diabetes datasets include glucose, BMI, diabetes outcome, age, and
+insurance assignment, but not A1C. Therefore, this skill uses plasma glucose as the
+primary objective lab variable and flags A1C as missing when required by a payer.
 
-```text
-clinic_note_skill -> outputs/patient_<PatientID>.pdf -> insurance_match_skill -> denial risk
+The policies are simulated and inspired by public clinical/policy references. They
+are not real payer rules and must not be presented as real approval or denial logic.
+
+## Example
+
+```python
+from skills.insurance_match_skill import evaluate_prior_authorization
+
+result = evaluate_prior_authorization(note_text)
+print(result["policy_id"])
+print(result["denial_risk"])
 ```
-
-## Dataset note
-
-The dataset has Glucose, BMI, Outcome, Age, and Insurance, but not A1C. The skill
-uses Glucose as the primary objective lab variable and flags A1C as missing when
-relevant.
